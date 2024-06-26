@@ -77,8 +77,8 @@ const Index = () => {
               helperText={<ErrorMessage name="password" component="div" />}
             />
             <button 
-              className=' mt-3 bg-transparent border-none text-black text-start w-[50px] cursor-pointer '
-              onClick={handleClick}>Register</button>
+              className=' mt-3 bg-transparent border-none text-blue border-b-2 text-start w-[50px] cursor-pointer '
+              onClick={handleClick}>Forgot password</button>
             <Button
               variant="contained"
               type='submit'
