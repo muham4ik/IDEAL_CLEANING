@@ -4,44 +4,45 @@ import clsx from 'clsx';
 import { styled, css } from '@mui/system';
 import { Modal as BaseModal } from '@mui/base/Modal';
 import auth from "../../../service/auth"
-import { useNavigate } from 'react-router-dom';
 import { ModalStyle } from '..';
+
 export default function KeepMountedModal(props) {
-  const [oppen,setOppen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
+  const { open: propOpen, toggle } = props;
+  const [form, setForm] = React.useState({});
 
- 
-const {open , toggle} = props
-const [form ,setForm] = React.useState({})
-const handleSubmit=async (e)=>{
-  e.preventDefault();
-  try{
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
       const response = await auth.forgot_password(form);
+      console.log(response);
       console.log(auth);
-  }catch(error){
+    } catch (error) {
       console.log(error);
-  }
-}
+    }
+  };
 
-const handleClick =()=>{
-  setOppen(true)
-  toggle()
-}
-const togle = ()=>{
-  setOppen(false)
-}
-const handleChange =(e)=>{
-const {name , value} = e.target
-setForm({...form , [name]:value})
+  const handleClick = () => {
+    setOpen(true);
+    toggle();
+  };
 
-}
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
 
   return (
     <div>
-      <ModalStyle open={oppen} toggle={togle}/>
+      <ModalStyle open={open} toggle={handleClose} />
       <Modal
         aria-labelledby="keep-mounted-modal-title"
         aria-describedby="keep-mounted-modal-description"
-        open={open}
+        open={propOpen}
         onClose={toggle}
         slots={{ backdrop: StyledBackdrop }}
         keepMounted
@@ -51,8 +52,16 @@ setForm({...form , [name]:value})
             Forgot password
           </h2>
           <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
-            <input type="email" name='email' onChange={handleChange} placeholder='Enter your email :)' className='p-4 outline-none placeholder:text-[18px]'/>
-            <button type='submit' onClick={handleClick} className='p-3 text-[18px] bg-blue-400 border-none rounded'>Submit</button>
+            <input
+              type="text"
+              name="email"
+              onChange={handleChange}
+              placeholder="Enter your email :)"
+              className="p-4 outline-none placeholder:text-[18px]"
+            />
+            <button type="submit" className="p-3 text-[18px] bg-blue-400 border-none rounded">
+              Submit
+            </button>
           </form>
         </ModalContent>
       </Modal>
@@ -72,7 +81,7 @@ const Backdrop = React.forwardRef((props, ref) => {
 });
 
 Backdrop.propTypes = {
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
   open: PropTypes.bool,
 };
 
