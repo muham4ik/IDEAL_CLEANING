@@ -4,8 +4,10 @@ import clsx from 'clsx';
 import { styled, css } from '@mui/system';
 import { Modal as BaseModal } from '@mui/base/Modal';
 import auth from '../../../service/auth';
+import { useNavigate } from 'react-router-dom';
 export default function ModalUnstyled({open ,toggle}) {
     const [form ,setForm] = React.useState({})
+    const navigate = useNavigate()
     const handleChange =(e)=>{
         const {name , value} = e.target
         setForm({...form , [name]:value})
@@ -16,15 +18,15 @@ export default function ModalUnstyled({open ,toggle}) {
         try{
             const response = await auth.verify_forgot_password(form);
             console.log(auth);
-            if(response.status === 200){
-                setOPen(true)
+            if(response.status === 201){
+             toggle()
                
             }
         }catch(error){
             console.log(error);
         }
       }
-
+      
 
   return (
     <div>
@@ -41,10 +43,10 @@ export default function ModalUnstyled({open ,toggle}) {
             Text in a modal
           </h2>
           <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
-            <input type="text" name='code' onChange={handleChange} placeholder='Enter your email :)' className='p-4 outline-none placeholder:text-[18px]'/>
+            <input type="text" name='code' onChange={handleChange} placeholder='Enter your code :)' className='p-4 outline-none placeholder:text-[18px]'/>
             <input type="email" name='email' onChange={handleChange} placeholder='Enter your email :)' className='p-4 outline-none placeholder:text-[18px]'/>
-            <input type="text" name='new_password' onChange={handleChange} placeholder='Enter your email :)' className='p-4 outline-none placeholder:text-[18px]'/>
-            <button type='submit' className='p-3 text-[18px] bg-blue-400 border-none rounded'>Submit</button>
+            <input type="text" name='new_password' onChange={handleChange} placeholder='Enter your new_password :)' className='p-4 outline-none placeholder:text-[18px]'/>
+            <button type='submit'  className='p-3 text-[18px] bg-blue-400 border-none rounded'>Submit</button>
           </form>
         </ModalContent>
       </Modal>

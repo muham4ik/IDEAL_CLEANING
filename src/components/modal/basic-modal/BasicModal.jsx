@@ -6,6 +6,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useNavigate } from 'react-router-dom';
+import {auth} from "@service"
 
 const style = {
   position: 'absolute',
@@ -22,10 +23,24 @@ const style = {
 export default function BasicModal({open , handleClose}) {
 const navigate = useNavigate()
 const [code,setCode] = React.useState({})
-const handleSubmit =(event)=>{
-event.preventDefault()
-   navigate("/")
+const handleChange = (event)=>{
+const {name , value} = event.target;
+setCode({...code , [name]:value})
 }
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await auth.verify(code);
+    if (response.status === 200) {
+      console.log('Login successful');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  
+};
+console.log(code);
+
   return (
     <div>
       <Modal
@@ -40,7 +55,8 @@ event.preventDefault()
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <form  onSubmit={handleSubmit} className='flex flex-col gap-3'>
-            <TextField fullWidth label="password" onChange={(e)=>setCode(e.target.value)} id="fullWidth"/>
+            <TextField fullWidth label="password" name='code' onChange={handleChange} id="fullWidth"/>
+            <TextField fullWidth label="Email" name='email' onChange={handleChange} id="fullWidth"/>
             <Button variant="contained" type='submit'  className='w-full' endIcon={<SendIcon/>}>Submit</Button>
             </form>
           </Typography>

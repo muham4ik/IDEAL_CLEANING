@@ -3,62 +3,52 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { styled, css } from '@mui/system';
 import { Modal as BaseModal } from '@mui/base/Modal';
-import auth from "../../../service/auth"
-import { ModalStyle } from '..';
-import { useNavigate } from 'react-router-dom';
-
-export default function KeepMountedModal(props) {
-  const [open, setOpen] = React.useState(false);
-  const { open: propOpen, toggle } = props;
-  const [form, setForm] = React.useState({});
+import {service} from "@service"
+export default function ModalUnstyled({open ,handleClose}) {
+  const [form,setForm] =React.useState({})
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await auth.forgot_password(form);
-      if(response.status === 200){
-       setOpen(true)
-       toggle()
-      }
+      const response = await service.create(form);
+     
+      console.log(response);
+      console.log(service);
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleClick = () => {
-    setOpen(true);
-    toggle();
-  };
-
-  const handleClose = () => {
-    setOpen(false);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
-
   return (
     <div>
-      <ModalStyle open={open} toggle={handleClose} />
+   
       <Modal
-        aria-labelledby="keep-mounted-modal-title"
-        aria-describedby="keep-mounted-modal-description"
-        open={propOpen}
-        onClose={toggle}
+        aria-labelledby="unstyled-modal-title"
+        aria-describedby="unstyled-modal-description"
+        open={open}
+        onClose={handleClose}
         slots={{ backdrop: StyledBackdrop }}
-        keepMounted
       >
         <ModalContent sx={{ width: 400 }}>
-          <h2 id="keep-mounted-modal-title" className="modal-title text-center text-[18]">
+        <h2 id="keep-mounted-modal-title" className="modal-title text-center text-[18]">
             Forgot password
           </h2>
           <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
             <input
               type="text"
-              name="email"
+              name="name"
               onChange={handleChange}
-              placeholder="Enter your email :)"
+              placeholder="Enter service name:)"
+              className="p-4 outline-none placeholder:text-[18px]"
+            />
+            <input
+              type="number"
+              name="price"
+              onChange={handleChange}
+              placeholder="Enter service price :)"
               className="p-4 outline-none placeholder:text-[18px]"
             />
             <button type="submit" className="p-3 text-[18px] bg-blue-400 border-none rounded">
@@ -83,7 +73,7 @@ const Backdrop = React.forwardRef((props, ref) => {
 });
 
 Backdrop.propTypes = {
-  className: PropTypes.string,
+  className: PropTypes.string.isRequired,
   open: PropTypes.bool,
 };
 
@@ -109,21 +99,14 @@ const grey = {
   900: '#1C2025',
 };
 
-const Modal = styled(BaseModal)(`
+const Modal = styled(BaseModal)`
   position: fixed;
   z-index: 1300;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  left: 0;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  &.base-Modal-hidden {
-    visibility: hidden;
-  }
-`);
+`;
 
 const StyledBackdrop = styled(Backdrop)`
   z-index: -1;

@@ -52,14 +52,12 @@ const Index = () => {
   const handleNavigate = ()=>{
     navigate("/sign-up")
   }
-  const handleNAv = ()=>{
-    navigate("/main")
-  }
+
   
   return (
     <div className="container">
      <Modal open={open} toggle={toggle}/> 
-      <h1 className='text-center mt-[200px] font-bold text-[#000] my-5'>LOGIN</h1>
+      <h1 className='text-center font-bold text-[32px] mt-[180px] py-5 text-[#000] '>LOGIN</h1>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -84,16 +82,17 @@ const Index = () => {
               helperText={<ErrorMessage name="password" component="div" />}
             />
             <button 
-              className=' mt-3 bg-transparent  text-[blue] border-none hover:text-black text-start w-[100px] cursor-pointer '
-              onClick={handleClick}>Forgot password</button>
+              className=' mt-2 bg-transparent  text-[blue] border-none hover:text-black text-start w-[134px]  cursor-pointer '
+              onClick={handleClick}>Forgot password
+              </button>
               <div className="flex justify-between gap-4">  <Button
               variant="contained"
               type='submit'
-              className='w-full'
+              className='w-full tex]'
               endIcon={<SendIcon />}
               disabled={isSubmitting}
-              onClick={handleNAv}
-            >
+               
+              >
               Login
             </Button>
             <Button
