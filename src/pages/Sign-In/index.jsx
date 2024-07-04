@@ -34,6 +34,7 @@ const Index = () => {
       if (response.status === 200) {
         // Handle successful login, e.g., redirect or show a success message
         console.log('Login successful');
+        localStorage.setItem("access_token", response.data.access_token);
         navigate("/main")
       }
     } catch (error) {
