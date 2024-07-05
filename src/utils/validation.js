@@ -27,3 +27,13 @@ export const servicesValidationSchema = Yup.object().shape({
     name: Yup.string().required("Xizmat nomini kiriting"),
     price: Yup.number().required("Xizmat narxini kiriting"),
 })
+
+// -------------- Order -------------------
+
+
+export const orderValidationSchema = Yup.object().shape({
+    amount: Yup.number().required("Xizmat sonini kiriting"),
+    client_full_name: Yup.string().required("Ismingizni kiriting"),
+    client_phone_number: Yup.string().min(10, "Noto'gri raqam").required("Telefon raqam majburiy"),
+    service_id: Yup.string().required("Xizmat id kiriting"),
+})
